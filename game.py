@@ -153,13 +153,21 @@ def main():
     print_header()
     game = Game(SIZE)
     terminal = Terminal(SIZE)
+    terminal.hide_cursor()
     game.add_random_seed()
     # game.add_glider_seed()
     # game.add_beacon_seed()
-    while True:
-        display_grid(terminal, game.grid)
-        game.process()
-        sleep(.2)
+    try:
+        while True:
+            display_grid(terminal, game.grid)
+            game.process()
+            sleep(.2)
+
+    except KeyboardInterrupt:
+        print('user ended game')
+
+    finally:
+        terminal.show_cursor()
 
 
 if __name__ == '__main__':  # pragma: no cover
