@@ -30,13 +30,13 @@ class Game(object):
         """
         return [[Game.Dead for x in range(self.size)] for y in range(self.size)]
 
-    def random_seed(self):
-        """ seed grid with random dead and alive cells
+    def add_random_seed(self):
+        """ add random seed to grid
         """
         choices = [Game.Alive, Game.Dead]
         self.grid = [[random.choice(choices) for x in range(self.size)] for y in range(self.size)]
 
-    def glider_seed(self):
+    def add_glider_seed(self):
         """ add glider seed
         """
         self.grid[0][1] = Game.Alive
@@ -45,15 +45,15 @@ class Game(object):
         self.grid[2][1] = Game.Alive
         self.grid[2][2] = Game.Alive
 
-    def blinker_seed(self):
+    def add_blinker_seed(self):
         """ add blinker oscillator seed
         """
         self.grid[4][3] = Game.Alive
         self.grid[4][4] = Game.Alive
         self.grid[4][5] = Game.Alive
 
-    def beacon_seed(self):
-        """ add becon oscillator seed
+    def add_beacon_seed(self):
+        """ add beacon oscillator seed
         """
         self.grid[1][1] = Game.Alive
         self.grid[1][2] = Game.Alive
@@ -62,18 +62,18 @@ class Game(object):
         self.grid[4][3] = Game.Alive
         self.grid[4][4] = Game.Alive
 
-    def neighbor_count(self, y, x):
+    def get_neighbor_count(self, y, x):
         """ return count of alive neighbors
         """
-        count = 0
+        neighbor_count = 0
         for dy in range(y - 1, y + 2):
             for dx in range(x - 1, x + 2):
                 xx = dx % self.size
                 yy = dy % self.size
                 if not (xx == x and yy == y) and self.grid[yy][xx] == Game.Alive:
                     # print(f'[{dy}][{dx}] is alive')
-                    count += 1
-        return count
+                    neighbor_count += 1
+        return neighbor_count
 
     def apply_rules(self, neighbor_count, state):
         """ return new_state after applying rules to state with neighbor_count
@@ -98,14 +98,14 @@ class Game(object):
     def get_new_state(self, y, x):
         """ return new_state for cell at position y, x
         """
-        neighbor_count = self.neighbor_count(y, x)
-        state = self.grid[y][x]
-        new_state = self.apply_rules(neighbor_count, state)
-        # print(f'{y}.{x} : {state} - {neighbor_count} -> {new_state}')
+        neighbor_count = self.get_neighbor_count(y, x)
+        current_state = self.grid[y][x]
+        new_state = self.apply_rules(neighbor_count, current_state)
+        # print(f'{y}.{x} : {current_state} - {neighbor_count} -> {new_state}')
         return new_state
 
-    def step(self):
-        """ step 
+    def process(self):
+        """ process grid - create new grid from existing grid by applying game rules
         """
         for y in range(self.size):
             for x in range(self.size):
@@ -114,7 +114,7 @@ class Game(object):
         self._grid = self._reset()
 
     def __str__(self):
-        """ str representation of Game instance
+        """ return string representation of Game instance
         """
         string = '   '
         for index in range(len(self.grid)):
@@ -139,12 +139,12 @@ def print_header():
     print(f"    {colons}")
 
 
-def display(terminal, grid):
+def display_grid(terminal, grid):
     """ display grid on terminal
     """
-    for index in range(SIZE):
-        line = ''.join(item for item in grid[index])
-        terminal.write_line(index, line)
+    for row_number in range(SIZE):
+        line = ''.join(cell for cell in grid[row_number])
+        terminal.write_line(row_number, line)
 
 
 def main():
@@ -153,12 +153,12 @@ def main():
     print_header()
     game = Game(SIZE)
     terminal = Terminal(SIZE)
-    game.random_seed()
-    # game.glider_seed()
-    # game.beacon_seed()
+    game.add_random_seed()
+    # game.add_glider_seed()
+    # game.add_beacon_seed()
     while True:
-        display(terminal, game.grid)
-        game.step()
+        display_grid(terminal, game.grid)
+        game.process()
         sleep(.2)
 
 
