@@ -104,8 +104,8 @@ class Game(object):
         # print(f'{y}.{x} : {current_state} - {neighbor_count} -> {new_state}')
         return new_state
 
-    def process(self):
-        """ process grid - create new grid from existing grid by applying game rules
+    def cycle(self):
+        """ cycle through grid - create new grid from existing grid by applying game rules
         """
         for y in range(self.size):
             for x in range(self.size):
@@ -160,7 +160,7 @@ def main():
     try:
         while True:
             display_grid(terminal, game.grid)
-            game.process()
+            game.cycle()
             sleep(.2)
 
     except KeyboardInterrupt:
