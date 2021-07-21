@@ -14,12 +14,12 @@ soda480/game-of-life:latest
 ## Execution without Docker
 Clone this repository to your machine, then change directory to the directory where the repository was cloned.
 
-Install requirements
+Install requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
-Execute script
+Execute script:
 ```bash
 python game.py
 ```
