@@ -25,6 +25,7 @@ python game.py
 ```
 
 ## Execution using locally built Docker image
+Clone this repository to your machine, then change directory to the directory where the repository was cloned.
 
 Build Docker Image:
 ```bash
