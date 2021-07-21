@@ -1,5 +1,5 @@
+import time
 import random
-from time import sleep
 from colorama import init as colorama_init
 from colorama import Style
 from colorama import Fore
@@ -8,22 +8,26 @@ from colorama import Back
 from mp4ansi import Terminal
 
 SIZE = 25
-
+SLEEP = .2
+bright_yellow = Style.BRIGHT + Fore.YELLOW + Back.BLACK
+blue = Style.BRIGHT + Fore.BLUE + Back.BLACK
 
 class Game(object):
     """ Simple implementation of Conway's Game of Life
     """
 
-    Alive = chr(9608) # chr(9632)
+    Alive = chr(9608)  # chr(9632)
     Dead = ' '
     Dying = chr(9617)
 
-    def __init__(self, size):
+    def __init__(self, size, seed=True):
         """ class constructor
         """
         self.size = size
         self.grid = self._reset()
         self._grid = self._reset()
+        if seed:
+            self.add_random_seed()
 
     def _reset(self):
         """ return grid of dead cells
@@ -104,14 +108,17 @@ class Game(object):
         # print(f'{y}.{x} : {current_state} - {neighbor_count} -> {new_state}')
         return new_state
 
-    def cycle(self):
+    def cycle(self, sleep=None):
         """ cycle through grid - create new grid from existing grid by applying game rules
         """
+        if sleep is None:
+            sleep = SLEEP
         for y in range(self.size):
             for x in range(self.size):
                 self._grid[y][x] = self.get_new_state(y, x)
         self.grid = self._grid
         self._grid = self._reset()
+        time.sleep(sleep)
 
     def __str__(self):
         """ return string representation of Game instance
@@ -126,8 +133,8 @@ class Game(object):
         return string
 
 
-def print_header():
-    """ print header columns of numbers
+def display_header():
+    """ print header columns of numbers to terminal
     """
     colorama_init()
     bright_yellow = Style.BRIGHT + Fore.YELLOW + Back.BLACK
@@ -150,18 +157,14 @@ def display_grid(terminal, grid):
 def main():
     """ main program subroutine
     """
-    print_header()
     game = Game(SIZE)
     terminal = Terminal(SIZE)
     terminal.hide_cursor()
-    game.add_random_seed()
-    # game.add_glider_seed()
-    # game.add_beacon_seed()
+    display_header()
     try:
         while True:
             display_grid(terminal, game.grid)
             game.cycle()
-            sleep(.2)
 
     except KeyboardInterrupt:
         print('user ended game')

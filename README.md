@@ -23,3 +23,15 @@ Execute script
 ```bash
 python game.py
 ```
+
+## Local Docker Image
+
+Build Docker Image:
+```bash
+docker image build -t game-of-life:latest .
+```
+
+Run Docker Container:
+```bash
+docker container run --entrypoint="" --rm -it -v $PWD:/game game-of-life:latest /bin/sh
+```
