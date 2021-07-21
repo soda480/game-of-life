@@ -3,7 +3,7 @@
 
 A simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life ) using Python.
 
-## Execution using Docker
+## Execution using Docker image
 ```bash
 docker container run \
 --rm -it \
@@ -24,7 +24,7 @@ Execute script
 python game.py
 ```
 
-## Local Docker Image
+## Execution using locally built Docker image
 
 Build Docker Image:
 ```bash
@@ -33,5 +33,5 @@ docker image build -t game-of-life:latest .
 
 Run Docker Container:
 ```bash
-docker container run --entrypoint="" --rm -it -v $PWD:/game game-of-life:latest /bin/sh
+docker container run --rm -it game-of-life:latest
 ```
