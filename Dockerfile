@@ -4,4 +4,4 @@ ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /code
 COPY . /code/
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python", "/game/game.py"]
+ENTRYPOINT ["python", "/code/game.py"]
