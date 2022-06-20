@@ -1,7 +1,7 @@
 #   -*- coding: utf-8 -*-
-FROM python:3.9-alpine
+FROM python:3.9-slim
 ENV PYTHONDONTWRITEBYTECODE 1
-WORKDIR /game
-COPY . /game/
-RUN pip install mp4ansi
+WORKDIR /code
+COPY . /code/
+RUN pip install -r requirements.txt
 ENTRYPOINT ["python", "/game/game.py"]

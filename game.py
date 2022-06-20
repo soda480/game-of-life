@@ -5,12 +5,13 @@ from colorama import Style
 from colorama import Fore
 from colorama import Back
 
-from mp4ansi import Terminal
+from l2term import Lines
 
 SIZE = 25
 SLEEP = .2
 bright_yellow = Style.BRIGHT + Fore.YELLOW + Back.BLACK
 blue = Style.BRIGHT + Fore.BLUE + Back.BLACK
+
 
 class Game(object):
     """ Simple implementation of Conway's Game of Life
@@ -108,17 +109,14 @@ class Game(object):
         # print(f'{y}.{x} : {current_state} - {neighbor_count} -> {new_state}')
         return new_state
 
-    def cycle(self, sleep=None):
+    def cycle(self):
         """ cycle through grid - create new grid from existing grid by applying game rules
         """
-        if sleep is None:
-            sleep = SLEEP
         for y in range(self.size):
             for x in range(self.size):
                 self._grid[y][x] = self.get_new_state(y, x)
         self.grid = self._grid
         self._grid = self._reset()
-        time.sleep(sleep)
 
     def __str__(self):
         """ return string representation of Game instance
@@ -146,31 +144,26 @@ def display_header():
     print(f"    {colons}")
 
 
-def display_grid(terminal, grid):
-    """ display grid on terminal
-    """
-    for row_number in range(SIZE):
-        line = ''.join(cell for cell in grid[row_number])
-        terminal.write_line(row_number, line)
-
-
 def main():
     """ main program subroutine
     """
-    game = Game(SIZE)
-    terminal = Terminal(SIZE)
-    terminal.hide_cursor()
     display_header()
     try:
-        while True:
-            display_grid(terminal, game.grid)
-            game.cycle()
+        # initialize the game
+        game = Game(SIZE)
+        # display grid on our terminal using the lines class
+        with Lines(game.grid) as lines:
+            while True:
+                # run through one game cycle
+                game.cycle()
+                # update lines in our terminal
+                for index in range(SIZE):
+                    lines[index] = game.grid[index]
+                # sleep a bit before the next cycle
+                time.sleep(SLEEP)
 
     except KeyboardInterrupt:
         print('user ended game')
-
-    finally:
-        terminal.show_cursor()
 
 
 if __name__ == '__main__':  # pragma: no cover
