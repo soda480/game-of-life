@@ -1,30 +1,21 @@
-import time
 import random
-from colorama import init as colorama_init
-from colorama import Style
-from colorama import Fore
-from colorama import Back
 
-from l2term import Lines
-
-SIZE = 25
-SLEEP = .2
-bright_yellow = Style.BRIGHT + Fore.YELLOW + Back.BLACK
-blue = Style.BRIGHT + Fore.BLUE + Back.BLACK
+from animator import Speed
+from animator import Animator
 
 
 class Game(object):
     """ Simple implementation of Conway's Game of Life
     """
-
     Alive = chr(9608)  # chr(9632)
-    Dead = ' '
     Dying = chr(9617)
+    Dead = ' '
 
-    def __init__(self, size, seed=True):
+    def __init__(self, y_size, x_size, seed=True):
         """ class constructor
         """
-        self.size = size
+        self.x_size = x_size
+        self.y_size = y_size
         self.grid = self._reset()
         self._grid = self._reset()
         if seed:
@@ -33,13 +24,13 @@ class Game(object):
     def _reset(self):
         """ return grid of dead cells
         """
-        return [[Game.Dead for x in range(self.size)] for y in range(self.size)]
+        return [[Game.Dead for x in range(self.x_size)] for y in range(self.y_size)]
 
     def add_random_seed(self):
         """ add random seed to grid
         """
         choices = [Game.Alive, Game.Dead]
-        self.grid = [[random.choice(choices) for x in range(self.size)] for y in range(self.size)]
+        self.grid = [[random.choice(choices) for x in range(self.x_size)] for y in range(self.y_size)]
 
     def add_glider_seed(self):
         """ add glider seed
@@ -73,8 +64,8 @@ class Game(object):
         neighbor_count = 0
         for dy in range(y - 1, y + 2):
             for dx in range(x - 1, x + 2):
-                xx = dx % self.size
-                yy = dy % self.size
+                xx = dx % self.x_size
+                yy = dy % self.y_size
                 if not (xx == x and yy == y) and self.grid[yy][xx] == Game.Alive:
                     # print(f'[{dy}][{dx}] is alive')
                     neighbor_count += 1
@@ -112,8 +103,8 @@ class Game(object):
     def cycle(self):
         """ cycle through grid - create new grid from existing grid by applying game rules
         """
-        for y in range(self.size):
-            for x in range(self.size):
+        for y in range(self.y_size):
+            for x in range(self.x_size):
                 self._grid[y][x] = self.get_new_state(y, x)
         self.grid = self._grid
         self._grid = self._reset()
@@ -131,39 +122,10 @@ class Game(object):
         return string
 
 
-def display_header():
-    """ print header columns of numbers to terminal
-    """
-    colorama_init()
-    bright_yellow = Style.BRIGHT + Fore.YELLOW + Back.BLACK
-    top = [str(index).zfill(2)[0] for index in range(SIZE)]
-    bot = [str(index).zfill(2)[1] for index in range(SIZE)]
-    print(f"{bright_yellow}    {''.join(top)}{Style.RESET_ALL}")
-    print(f"{bright_yellow}    {''.join(bot)}{Style.RESET_ALL}")
-    colons = ':' * SIZE
-    print(f"    {colons}")
-
-
 def main():
     """ main program subroutine
     """
-    display_header()
-    try:
-        # initialize the game
-        game = Game(SIZE)
-        # display grid on our terminal using the lines class
-        with Lines(game.grid) as lines:
-            while True:
-                # run through one game cycle
-                game.cycle()
-                # update lines in our terminal
-                for index in range(SIZE):
-                    lines[index] = game.grid[index]
-                # sleep a bit before the next cycle
-                time.sleep(SLEEP)
-
-    except KeyboardInterrupt:
-        print('user ended game')
+    Animator(animation=Game(40, 120))
 
 
 if __name__ == '__main__':  # pragma: no cover
