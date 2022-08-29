@@ -1,7 +1,6 @@
 import random
 
-from animator import Speed
-from animator import Animator, Animation
+from ascii_animator import Animator, Animation, Speed
 
 
 class Game(Animation):
@@ -129,7 +128,7 @@ class Game(Animation):
 def main():
     """ main program subroutine
     """
-    Animator(animation=Game(40, 120))
+    Animator(animation=Game(40, 120), show_index=True)
 
 
 if __name__ == '__main__':  # pragma: no cover
