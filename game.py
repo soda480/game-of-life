@@ -128,7 +128,7 @@ class Game(Animation):
 def main():
     """ main program subroutine
     """
-    Animator(animation=Game(40, 120), show_index=True)
+    Animator(animation=Game(30, 100), show_axis=True)
 
 
 if __name__ == '__main__':  # pragma: no cover
