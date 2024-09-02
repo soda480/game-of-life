@@ -21,7 +21,7 @@ dependencies = [
 game-of-life = "game_of_life:__main__.main"
 
 [project.urls]
-"Homepage" = "https://github.com/thomascrha/textual-game-of-life"
+"Homepage" = "https://github.com/soda480/game-of-life"
 
 [project.optional-dependencies]
 deploy = [
