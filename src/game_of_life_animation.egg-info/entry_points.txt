@@ -1,2 +1,0 @@
-[console_scripts]
-game-of-life = game_of_life:__main__.main
