@@ -1,5 +1,6 @@
 # game-of-life
 [![python](https://img.shields.io/badge/python-3.9-teal)](https://www.python.org/downloads/)
+[![PyPI version](https://badge.fury.io/py/game-of-life-animation.svg)](https://badge.fury.io/py/game-of-life-animation)
 
 A simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life ) using Python. Uses [ascii-animator](https://pypi.org/project/ascii-animator/) to animate the game to the terminal.
 
