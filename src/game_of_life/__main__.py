@@ -1,5 +1,4 @@
 import random
-
 from ascii_animator import Animator, Animation, Speed
 
 

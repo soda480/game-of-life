@@ -1,0 +1,35 @@
+[project]
+name = "game-of-life-animation"
+version = "0.1.2"
+authors = [
+  { name="Emilio Reyes", email="soda480@gmail.com" },
+]
+description = "A simple implementation of Conway's Game of Life using Python. Uses ascii-animator to animate the game to the terminal."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "ascii-animator==0.2.1",
+]
+
+[project.scripts]
+game-of-life = "game_of_life:__main__.main"
+
+[project.urls]
+"Homepage" = "https://github.com/thomascrha/textual-game-of-life"
+
+[project.optional-dependencies]
+deploy = [
+    "build",
+    "twine",
+    "setuptools>=61.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

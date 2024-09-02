@@ -1,0 +1,6 @@
+ascii-animator==0.2.1
+
+[deploy]
+build
+twine
+setuptools>=61.0
